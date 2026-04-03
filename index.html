@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>STICKFOREVE | HAZMOB FPS ONLINE</title>
+    
+    <style>
+        body {
+            background: #000;
+            color: #39FF14;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Tactical Arena Frame */
+        #arena-container {
+            position: relative;
+            width: 98vw;
+            height: 80vh;
+            border: 2px solid #39FF14;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+            background: #000;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            /* Shooter Fix: Ensures no laggy scrolling */
+            touch-action: none; 
+        }
+
+        /* The Fullscreen Combat Button */
+        #fs-btn {
+            margin-top: 15px;
+            padding: 12px 40px;
+            background: #39FF14;
+            color: #000;
+            border: none;
+            font-family: 'Courier New', monospace;
+            font-weight: 900;
+            font-size: 1.2rem;
+            cursor: crosshair;
+            text-transform: uppercase;
+            box-shadow: 0 5px 0 #1b8a0a;
+        }
+
+        #fs-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #1b8a0a;
+        }
+
+        .hud-text { font-size: 0.7rem; margin-bottom: 5px; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+    <div class="hud-text">[ STICKFOREVE ] SECTOR: HAZMOB-FPS // LATENCY: LOW</div>
+
+    <div id="arena-container">
+        <iframe 
+            id="game-frame" 
+            src="https://playgama.com/export/game/hazmob-fps-online-shooter?clid=p_1ad7647c-3354-43b6-bd4f-94366ff31914" 
+            allow="fullscreen; accelerometer; pointer-lock; autoplay; gyroscope; keyboard" 
+            frameborder="0">
+        </iframe>
+    </div>
+
+    <button id="fs-btn" onclick="enterCombat()">DEPLOY FULLSCREEN</button>
+
+    <script>
+        function enterCombat() {
+            const arena = document.getElementById('arena-container');
+            
+            // Standard Fullscreen + Safari/iOS support
+            if (arena.requestFullscreen) {
+                arena.requestFullscreen();
+            } else if (arena.webkitRequestFullscreen) {
+                arena.webkitRequestFullscreen();
+            }
+        }
+
+        // Pointer Lock: Traps the mouse inside the game for aiming
+        document.addEventListener('fullscreenchange', () => {
+            const iframe = document.getElementById('game-frame');
+            const btn = document.getElementById('fs-btn');
+            
+            if (document.fullscreenElement) {
+                btn.style.display = 'none';
+                // Request mouse lock for the shooter
+                iframe.contentWindow.focus();
+            } else {
+                btn.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
